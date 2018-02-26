@@ -1,0 +1,15 @@
+
+<div class="container" id="processButtons" data-bind="foreach: $props.screenArray">
+    <!-- ko if: $data['type'] == 'button' -->
+    <input data-bind="attr: {id: id, type: type, value: value}" class="btn btn-primary btn-lg btn-block"></input>
+    <!-- /ko -->
+</div>
+<br>
+<br>
+<div class="container">
+        <!-- <input data-bind="click: purchaseOrder" value="Purchase Order Sample" class="btn btn-primary btn-lg btn-block"></input> -->
+        <!-- <br> -->
+        <button type="button" class="btn btn-secondary btn-lg btn-block" data-bind="click: logout">Log Out</button>
+</div>
+
+

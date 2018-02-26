@@ -1,0 +1,26 @@
+[
+    {
+        "id": 0,
+        "type": "text",
+        "label": "Username",
+        "placeholder": "JDE Username",
+        "enabled": true,
+        "name": "username"
+    },
+    {
+        "id": 1,
+        "type": "password",
+        "label": "Password",
+        "placeholder": "JDE Password",
+        "enabled": true,
+        "name": "password"
+    },
+    {
+        "id": 2,
+        "type": "text",
+        "label": "AIS",
+        "placeholder": "AIS Server eg. http://demo.steltix.com",
+        "enabled": true,
+        "name": "ais"
+    }
+]

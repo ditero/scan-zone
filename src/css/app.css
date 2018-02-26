@@ -1,0 +1,26 @@
+/*
+    Document   : override
+    Created on : <date>
+    Author     : <author>
+    Description:
+        This is where any of your application specific styles should be included
+*/
+
+.szheader {
+    background-color: #f4f4f4;
+}
+.szlogo {
+    border-radius: 2em;
+}
+
+.sznavbar {
+    width: 100%;
+    text-align: center;
+}
+#spantext {
+    color:#d00000;
+}
+
+.qr-scanner-icon {
+    background-image: url('./images/qr-code.png')
+  } 

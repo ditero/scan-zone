@@ -1,0 +1,21 @@
+{
+  "name": "login-cmp",
+  "displayName": "login-cmp",
+  "description": "Describe your component here",
+  "version": "1.0.0",
+  "jetVersion": "^4.1.0",
+  "properties": {
+    "screenArray": {
+      "type": "Array"
+    }
+  },
+  "methods": {
+
+  }, 
+  "events": {
+
+  }, 
+  "slots": {
+
+  }
+}

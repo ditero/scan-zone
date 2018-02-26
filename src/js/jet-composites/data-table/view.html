@@ -1,0 +1,15 @@
+<h2> Item Information </h2>
+<hr>
+<table id="table" summary="Items List" aria-label="Purchase Orders Table"
+       data-bind="ojComponent: {component: 'ojTable', 
+                                data: datasource, 
+                                columnsDefault: {sortable: 'none'}, 
+                                columns: [{headerText: 'ItemNo', 
+                                           field: 'ItemNo'},
+                                          {headerText: 'Cost', 
+                                           field: 'Cost'},
+                                          {headerText: 'Qty', 
+                                           field: 'Qty'},
+                                          {headerText: 'Status', 
+                                           field: 'Status'}]}">
+</table>

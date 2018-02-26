@@ -1,0 +1,7 @@
+menu-cmp:not(.oj-complete){
+  visibility: hidden;
+}
+
+menu-cmp{
+
+}

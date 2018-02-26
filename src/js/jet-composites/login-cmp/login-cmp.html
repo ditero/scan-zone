@@ -1,0 +1,38 @@
+<form>
+  <div id="inputForm" data-bind="foreach: $props.screenArray">
+  <!-- ko if: $data['type'] == "text" -->
+  <div class="form-group row">
+      <label for="inputServer" class="col-sm-2 col-form-label" data-bind="text: label"></label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control mb-2 mr-sm-2 loginInputs" data-bind="attr: {id: id, placeholder: placeholder, enabled: enabled, name: name}">
+      </div>
+    </div>
+    <!-- /ko -->
+  
+    <!-- ko if: $data['name'] == "password" -->
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label" data-bind="text: label"></label>
+      <div class="col-sm-10">
+        <input type="password" class="form-control loginInputs" data-bind="attr: {id: id, placeholder: placeholder, enabled: enabled, name: name}">
+      </div>
+    </div>
+    <!-- /ko -->
+
+    
+  </div>
+
+  <div class="form-group row">
+    <div class="col-sm-10">
+      <button type="submit" class="btn btn-primary loginBtn" data-bind="click: login">Sign in</button>
+    </div>
+  </div>
+
+</form>
+<div id="validation" class="alert alert-danger hidden" data-bind="text: validMsg" role="alert"></div>
+</div>
+
+<div class="spinner hidden">
+  <div class="bounce1"></div>
+  <div class="bounce2"></div>
+  <div class="bounce3"></div>
+</div>

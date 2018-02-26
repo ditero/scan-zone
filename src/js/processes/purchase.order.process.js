@@ -105,33 +105,43 @@ var fsm = new StateMachine({
         onProcessPO: function (PO) {
             if (PO !== undefined || PO !== "") {
                 if (self.currentPage() == 1) {
-                    this.onSearchItem(PO);
-                } else if (self.currentPage() == 0) {
                     this.onGetItem(PO);
+                } else if (self.currentPage() == 0) {
+                    this.onGetPurchaseOrder(PO);
                 }
             } else {
                 return false;
             }
         },
-        onGetItem: async function (PO) {
-            // Make AJAX CALL TO API
-            var item;
+        onGetPurchaseOrder: async function (PO) {
+            // Make AJAX call
+            let item;
 
-            var form = $.getJSON('js/docs/po_step1.json', function () {
-                console.log('success');
-            })
-            .done(function (form) {
-                if (form.fs_P43081_W43081A) {
-                    rowSet = form.fs_P43081_W43081A.data.gridData.rowset;
-                    rowSet.forEach(item => {
-                        console.log(item)
-                    })
-                }
-            })
-            .fail(function (err) {
-                console.log('error')
-            })
+            var form = new Promise(function(resolve, reject){
+                $.getJSON('js/docs/po_step1.json', function () {
+                    console.log('success');
+                })
+                .done(function (form) {
+                    if (form.fs_P43081_W43081A) {
+                        rowSet = form.fs_P43081_W43081A.data.gridData.rowset;
+                        rowSet.forEach(item => {
+                        if (item.mnOrderNumber_22.internalValue == Number(PO)) {
+                            resolve(item);
+                        }
+                        });
+                    }
+                })
+                .fail(function (err) {
+                    resolve(err);
+                })
+            });
+            
+            await form
+                   .then(function(form) {
+                     item = form;
+                 });
 
+            // console.log(item)
             // await $.ajax({
             //     type: 'GET',
             //     url: "http://localhost:3001/PO",
@@ -142,41 +152,66 @@ var fsm = new StateMachine({
             //     item = results[0];
             // });
 
-            // this.onsetValues(item)                
+            this.onsetValues(item)                
         },
         onsetValues: async function (item) {
             if (item) {
                 console.log(item);
                 CurrentItems = item;
-                self.poNumber(item.PO);
-                self.poSupplier(item.SupplierNo);
-                self.poOrderDate(item.orderDate);
-                self.poTotalAmount(item.totalAmount);
+                self.poNumber(item.mnOrderNumber_22.internalValue);
+                self.poSupplier(item.sSupplierName_187.internalValue);
+                self.poOrderDate(item.dtOrderDate_65.value);
+                self.poTotalAmount(item.mnOrderAmount_183.internalValue);
 
                 this.onChangePage();
             } else {
                 return false;
             }
         },
-        onSearchItem: function (itemNo) {
-            let itemList = CurrentItems.Details;
-            itemList.forEach(item => {
-                if (item.ItemNo == itemNo) {
-                    console.log(item);
-                    self.itemNo(item.ItemNo);
-                    self.itemCost(item.Cost);
-                    self.itemQty(item.Qty);
-                    if (item.Status == false) {
-                        self.pending(true);
-                        self.confirm(false)
-                    } else {
-                        self.pending(false);
-                        self.confirm(true)
-                    }
-                };
-            });
+        onGetItem: async function (itemNo) {
+            console.log(itemNo);
 
-            this.onChangePage();
+            var item = new Promise(function(resolve, reject){
+                $.getJSON('js/docs/po_step2.json', function () {
+                    console.log('success');
+                })
+                .done(function (form) {
+                    if (form.fs_P43081_W43081B) {
+                        CurrentItems = form.fs_P43081_W43081B.data.gridData.rowset;
+                        CurrentItems.forEach(item => {
+                        if (item.sItemNumber_81.internalValue == itemNo) {
+                            resolve(item);
+                        }
+                        });
+                    }
+                })
+                .fail(function (err) {
+                    resolve(err);
+                })
+            });
+            
+            await item 
+                    .then(function(item) { 
+                        console.log(item);
+                        if (item['rowIndex'] == 0) {
+                                    self.itemNo(item.sItemNumber_81.internalValue);
+                                    self.itemCost(item.mnUnitCost_82.internalValue);
+                                    self.itemQty(item.mnQuantityOrdered_80.internalValue);
+                                    self.itemDesc(item.sDescription_68.internalValue);
+                                    if (item.sStatus_151.internalValue == "Cancelled") {
+                                        self.pending(true);
+                                        self.confirm(false)
+                                    } else {
+                                        self.pending(false);
+                                        self.confirm(true)
+                                    }
+                        } else {
+                            return false;
+                        }
+
+                    });
+           
+                    this.onChangePage();
         },
         onUpdateItem: async function () {
             let status = false;

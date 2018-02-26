@@ -18,7 +18,7 @@
         <li class="breadcrumb-item active" aria-current="page">QR Code</li>
       </ol>
     </nav>
-    <input class="form-control form-control-lg" type="text" placeholder="PO Code" data-bind="value: qrVal ">
+    <input class="form-control form-control-lg" type="text" placeholder="PO Code" data-bind="value: qrVal">
     <video id="preview"></video>
   </div>
 
@@ -46,7 +46,7 @@
           <span class="oj-text-secondary-color" data-bind="text: poSupplier"></span>
         </p>
         <p>
-          <span class="oj-text-primary-color">Order Data: </span>
+          <span class="oj-text-primary-color">Order Date: </span>
           <span class="oj-text-secondary-color" data-bind="text: poOrderDate"></span>
         </p>
         <p>
@@ -72,6 +72,14 @@
       </div>
       <input type="text" class="form-control" aria-label="Default" data-bind="value: itemNo" aria-describedby="inputGroup-sizing-default"
         id="itemNo" name="itemNo">
+    </div>
+
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default">Item Description </span>
+      </div>
+      <input type="text" class="form-control" aria-label="Default" data-bind="value: itemDesc" aria-describedby="inputGroup-sizing-default"
+        id="itemDesc" name="itemDesc">
     </div>
 
     <div class="input-group mb-3">
@@ -112,23 +120,3 @@
 <div class="container" id="formTable">
   <data-table form-data="{{tableData}}"></data-table>
 </div>
-<!-- <div class="wrapper">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-12">
-        <p id="pagination-here">
-          <nav aria-label="...">
-          <ul class="pagination">
-            <li class="page-item" id="previousScreen"><span class="page-link">Previous</span></li>
-            <li class="page-item active" id="screenOne"><span class="page-link">1</span></li>
-            <li class="page-item" id="screenTwo"><span class="page-link">2</span></li>
-            <li class="page-item" id="screenThree"><span class="page-link">3</span></li>
-            <li class="page-item" id="screenFour"><span class="page-link">4</span></li>      
-            <li class="page-item" id="nextScreen"><span class="page-link">Next</span></li>
-          </ul>
-        </nav></p>
-        <p id="content">Step 1</p>
-      </div>
-    </div>
-  </div>
-</div> --> 

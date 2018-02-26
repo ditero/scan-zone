@@ -54,12 +54,16 @@ define(
             console.log(context);
             self.qrVal = ko.observable("");
             self.qr_state = ko.observable("");
+
+            // Item Values
             self.itemNo = ko.observable("");
             self.itemCost = ko.observable("");
             self.itemQty = ko.observable("");
+            self.itemDesc = ko.observable("");
             self.confirm = ko.observable(true);
             self.pending = ko.observable(false);
 
+            // PO Form Values
             self.poNumber = ko.observable();
             self.poSupplier = ko.observable();
             self.poOrderDate = ko.observable();

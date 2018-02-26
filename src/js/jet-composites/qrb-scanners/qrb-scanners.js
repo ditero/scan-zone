@@ -3,7 +3,7 @@
   The Universal Permissive License (UPL), Version 1.0
 */
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbutton','../data-table/loader', 'Quagga', 'purchase-order-process'], function (oj, ko, $) {
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbutton','../data-table/data-table.loader', 'Quagga', 'purchase-order-process'], function (oj, ko, $) {
         'use strict';
 
         function ExampleComponentModel(context) {
@@ -52,8 +52,10 @@ define(
 
 
             console.log(context);
+
             self.qrVal = ko.observable("");
             self.qr_state = ko.observable("");
+            self.scanErrors = ko.observable("")
 
             // Item Values
             self.itemNo = ko.observable("");

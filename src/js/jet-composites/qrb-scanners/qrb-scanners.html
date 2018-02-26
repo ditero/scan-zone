@@ -32,6 +32,8 @@
 
     <div id="scanelem"></div>
   </div>
+
+  <div class="alert alert-danger hidden" id="scanErrorElement" role="alert" data-bind="text: scanErrors"></div>  
 </div>
 
 <div id="poForm">
@@ -53,7 +55,7 @@
           <span class="oj-text-primary-color">Total Amount: </span>
           <span class="oj-text-secondary-color" data-bind="text: poTotalAmount"></span>
         </p>
-        <div class="alert alert-success hidden" role="alert">Found PO Form ! Scan Your Item Now...</div>
+        <div class="alert alert-success hidden" id="scanSuccess" role="alert">Found PO Form ! Scan Your Item Now...</div>
         <div class="oj-flex-item" id="rescanPO">
           <div class="oj-flex-item"><button type="button" class="btn btn-info" data-bind="click: rescanPo">Rescan PO Number</button></div>
         </div>

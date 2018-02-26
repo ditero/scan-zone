@@ -117,42 +117,50 @@ var fsm = new StateMachine({
             // Make AJAX call
             let item;
 
-            var form = new Promise(function(resolve, reject){
+            var form = new Promise(function (resolve, reject) {
                 $.getJSON('js/docs/po_step1.json', function () {
                     console.log('success');
                 })
-                .done(function (form) {
-                    if (form.fs_P43081_W43081A) {
-                        rowSet = form.fs_P43081_W43081A.data.gridData.rowset;
-                        rowSet.forEach(item => {
-                        if (item.mnOrderNumber_22.internalValue == Number(PO)) {
-                            resolve(item);
+                    .done(function (form) {
+                        if (form.fs_P43081_W43081A) {
+                            rowSet = form.fs_P43081_W43081A.data.gridData.rowset;
+                            rowSet.forEach(item => {
+                                if (item.mnOrderNumber_22.internalValue == Number(PO)) {
+                                    resolve(item);
+                                } else {
+                                    resolve(false);
+                                }
+                            });
+                        } else {
+                            console.log('did not find the form')
+                            resolve(false);
                         }
-                        });
-                    }
-                })
-                .fail(function (err) {
-                    resolve(err);
-                })
+                    })
+                    .fail(function (err) {
+                        resolve(err);
+                    })
             });
-            
+
+            let found = true;
+
             await form
-                   .then(function(form) {
-                     item = form;
-                 });
+                .then(function (form) {
+                    if (form) {
+                        item = form;
+                    } else {
+                        found = false;
+                    }
+                });
 
-            // console.log(item)
-            // await $.ajax({
-            //     type: 'GET',
-            //     url: "http://localhost:3001/PO",
-            //     fail: function (xhr, textStatus, errorThrow) { //if the request fail print the error
-            //         console.log(xhr)
-            //     }
-            // }).done(function (results) { //if successful print the token
-            //     item = results[0];
-            // });
 
-            this.onsetValues(item)                
+            console.log(found)
+
+            if (found == true) {
+                this.onsetValues(item);
+            } else if (found == false) {
+                this.onErrors('Purchase Not Found. Try Again.');
+            }
+
         },
         onsetValues: async function (item) {
             if (item) {
@@ -171,47 +179,55 @@ var fsm = new StateMachine({
         onGetItem: async function (itemNo) {
             console.log(itemNo);
 
-            var item = new Promise(function(resolve, reject){
+            var item = new Promise(function (resolve, reject) {
                 $.getJSON('js/docs/po_step2.json', function () {
                     console.log('success');
                 })
-                .done(function (form) {
-                    if (form.fs_P43081_W43081B) {
-                        CurrentItems = form.fs_P43081_W43081B.data.gridData.rowset;
-                        CurrentItems.forEach(item => {
-                        if (item.sItemNumber_81.internalValue == itemNo) {
-                            resolve(item);
+                    .done(function (form) {
+                        if (form.fs_P43081_W43081B) {
+                            CurrentItems = form.fs_P43081_W43081B.data.gridData.rowset;
+                            CurrentItems.forEach(item => {
+                                if (item.sItemNumber_81.internalValue == itemNo) {
+                                    resolve(item);
+                                } else {
+                                    resolve(false);
+                                }
+                            });
                         }
-                        });
-                    }
-                })
-                .fail(function (err) {
-                    resolve(err);
-                })
+                    })
+                    .fail(function (err) {
+                        resolve(err);
+                    })
             });
-            
-            await item 
-                    .then(function(item) { 
-                        console.log(item);
-                        if (item['rowIndex'] == 0) {
-                                    self.itemNo(item.sItemNumber_81.internalValue);
-                                    self.itemCost(item.mnUnitCost_82.internalValue);
-                                    self.itemQty(item.mnQuantityOrdered_80.internalValue);
-                                    self.itemDesc(item.sDescription_68.internalValue);
-                                    if (item.sStatus_151.internalValue == "Cancelled") {
-                                        self.pending(true);
-                                        self.confirm(false)
-                                    } else {
-                                        self.pending(false);
-                                        self.confirm(true)
-                                    }
-                        } else {
-                            return false;
-                        }
 
-                    });
-           
-                    this.onChangePage();
+            let found = true;
+
+            await item
+                .then(function (item) {
+                    console.log(item);
+                    if (item['rowIndex'] == 0) {
+                        self.itemNo(item.sItemNumber_81.internalValue);
+                        self.itemCost(item.mnUnitCost_82.internalValue);
+                        self.itemQty(item.mnQuantityOrdered_80.internalValue);
+                        self.itemDesc(item.sDescription_68.internalValue);
+                        if (item.sStatus_151.internalValue == "Cancelled") {
+                            self.pending(true);
+                            self.confirm(false)
+                        } else {
+                            self.pending(false);
+                            self.confirm(true)
+                        }
+                    } else {
+                        found = false;
+                    }
+                });
+
+            if (found !== true) {
+                this.onErrors("Item Not Found. Please Rescan Or Enter Item Number Again.")
+            } else {
+            this.onChangePage();
+                
+                }
         },
         onUpdateItem: async function () {
             let status = false;
@@ -274,12 +290,12 @@ var fsm = new StateMachine({
             switch (index) {
                 case 1:
                     $('#poForm').removeClass('hidden');
-                    $('.alert').removeClass('hidden');
+                    $('#scanSuccess').removeClass('hidden');
                     break;
                 case 2:
                     $('#scan-controls').addClass('hidden');
                     $("#output-form").removeClass('hidden');
-                    $(".alert").addClass('hidden');
+                    $("#scanSuccess").addClass('hidden');
                     $('#rescanPO').addClass('hidden');
                     break;
                 case 3:
@@ -289,6 +305,15 @@ var fsm = new StateMachine({
                 default:
                     break;
             }
+        },
+        onErrors: async function (error) {
+            $('#scanErrorElement').removeClass("hidden");
+
+            self.scanErrors(error);
+
+            setTimeout(function () {
+                $('#scanErrorElement').addClass('hidden');
+            }, 3500)
         }
 
     }

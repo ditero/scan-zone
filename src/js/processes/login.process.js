@@ -30,23 +30,23 @@ var fsm = new StateMachine({
             
             console.log(cUser);
 
-            await $.ajax({
-                type: 'post',
-                data: JSON.stringify(cUser),
-                contentType: "application/json",
-                url: credentials.ais + "/jderest/v2/tokenrequest",
-                fail: function (xhr, textStatus, errorThrow) { //if the request fail print the error
-                    console.log(xhr)
-                }
-            }).done(function (results) { //if successful print the token
-                console.log(results)
-                if (results.userInfo.token) {
-                    //set token in local storage
-                    localStorage.setItem('token', JSON.stringify(results.userInfo.token));
-                    //set username in local storage
-                    localStorage.setItem('username', JSON.stringify(results.username));
-                }
-            });
+            // await $.ajax({
+            //     type: 'post',
+            //     data: JSON.stringify(cUser),
+            //     contentType: "application/json",
+            //     url: credentials.ais + "/jderest/v2/tokenrequest",
+            //     fail: function (xhr, textStatus, errorThrow) { //if the request fail print the error
+            //         console.log(xhr)
+            //     }
+            // }).done(function (results) { //if successful print the token
+            //     console.log(results)
+            //     if (results.userInfo.token) {
+            //         //set token in local storage
+            //         localStorage.setItem('token', JSON.stringify(results.userInfo.token));
+            //         //set username in local storage
+            //         localStorage.setItem('username', JSON.stringify(results.username));
+            //     }
+            // });
 
             this.onLogin();        
         },

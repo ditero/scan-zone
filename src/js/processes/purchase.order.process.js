@@ -75,9 +75,9 @@ var fsm = new StateMachine({
         },
         onStartQRScanner: function () {
             // QR Scanner
-            let video = document.querySelector('#preview');
+            var video = document.querySelector('#preview');
 
-            let scanner = new Instascan.Scanner({ video: video });
+            var scanner = new Instascan.Scanner({ video: video });
 
             let scanResult = new Promise(function (resolve, reject) {
                 scanner.addListener('scan', async function (content) {

@@ -1,9 +1,5 @@
-/**
-  Copyright (c) 2015, 2017, Oracle and/or its affiliates.
-  The Universal Permissive License (UPL), Version 1.0
-*/
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbutton','../data-table/data-table.loader', 'Quagga', 'purchase-order-process'], function (oj, ko, $) {
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbutton','../data-table/data-table.loader', 'getPoForm', 'mapper', 'Quagga', 'purchase-order-process'], function (oj, ko, $) {
         'use strict';
 
         function ExampleComponentModel(context) {
@@ -25,8 +21,6 @@ define(
                 }
             };
 
-            
-            
 
             context.props.then(function (propertyMap) {
                 //Store a reference to the properties for any later use
@@ -113,7 +107,7 @@ define(
             //     }
             // });
 
-            fsm.onStartQRScanner();
+            // fsm.onStartQRScanner();
         };
 
         ExampleComponentModel.prototype.bindingsApplied = function (context) {

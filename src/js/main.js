@@ -32,6 +32,8 @@ requirejs.config(
     'proj4': 'libs/proj4js/dist/proj4-src',
     'css': 'libs/require-css/css',
     'login-process': 'processes/login.process',
+    'getPoForm': 'data-service/getPoForm',
+    'mapper': 'mapper/jde.data.mapper',
     'menu-process': 'processes/menu.process',
     'purchase-order-process': 'processes/purchase.order.process',
     'bootstrap-js': 'libs/bootstrap-4.0.0-dist/js/bootstrap.min',

@@ -1,7 +1,8 @@
 const Mapper = () => {
     getPoData = async () => await GetPoForm().getPo();
+    getItemData = async () => await GetItem().getItem();
 
-    mapper = async () => {
+    poMapper = async (jdeForm) => {
         let data = await getPoData();
         let rowset = data['fs_P43081_W43081A'].data.gridData.rowset;
         let PoForm = {};
@@ -17,24 +18,50 @@ const Mapper = () => {
 
                     if (title) {
                         let newTitle = form[key].title.split(" ").join("");
-                        PoForm[newTitle] ? undefined : PoForm[newTitle] = { id, value, internalValue }
+                        PoForm[newTitle] ? undefined : PoForm[newTitle] = { id, value, internalValue };
                     }
                 });
             });
             resolve(true);
         })
-        processNewForm.then((state) => {return PoForm});
+        processNewForm.then((state) => {console.log(PoForm); return PoForm});
+    }
+
+    itemMapper = async () => {
+        let data = await getItemData();
+        let rowset = data['fs_P43081_W43081B'].data.gridData.rowset;
+        let Item = {};
+        let processNewItems = new Promise(async (resolve, reject) => {
+            await rowset.forEach(item => {
+                let keys = Object.keys(item);
+                keys.forEach(key => {
+                    // If Need Be Add More Values
+                    let id = item[key].id;
+                    let title = item[key].title ? true : false;
+                    let value = item[key].value;
+                    let internalValue = item[key].internalValue;
+
+                    if (title) {
+                        let newTitle = item[key].title.split(" ").join("");
+                        Item[newTitle] ? undefined : Item[newTitle] = { id, value, internalValue };
+                    }
+                });
+            });
+            resolve(true);
+        })
+        processNewItems.then((state) => {console.log(Item)});
     }
 
     return {
-        getPoData,
-        mapper
+        poMapper,
+        itemMapper
     }
 }
 
 const myFunc = function () {
 
-    let myf = Mapper().mapper();
+    let myP = Mapper().poMapper();
+    let myI = Mapper().itemMapper();
 
 }
 

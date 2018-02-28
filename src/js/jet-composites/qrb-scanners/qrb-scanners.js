@@ -1,5 +1,5 @@
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbutton','../data-table/data-table.loader', 'getPoForm', 'mapper', 'Quagga', 'purchase-order-process'], function (oj, ko, $) {
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbutton','../data-table/data-table.loader', 'getItem', 'getPoForm', 'mapper', 'Quagga', 'purchase-order-process'], function (oj, ko, $) {
         'use strict';
 
         function ExampleComponentModel(context) {

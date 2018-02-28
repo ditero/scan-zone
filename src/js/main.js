@@ -33,6 +33,7 @@ requirejs.config(
     'css': 'libs/require-css/css',
     'login-process': 'processes/login.process',
     'getPoForm': 'data-service/getPoForm',
+    'getItem': 'data-service/getItem',
     'mapper': 'mapper/jde.data.mapper',
     'menu-process': 'processes/menu.process',
     'purchase-order-process': 'processes/purchase.order.process',

@@ -44,7 +44,7 @@ define(
                 self.properties = propertyMap;
 
                 //Parse your component properties here 
-                console.log(self.properties)
+                // console.log(self.properties)
             });
 
 

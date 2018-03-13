@@ -16,7 +16,6 @@ const Mapper = () => {
                 break;
         }
 
-
         let rowset = data[formIdentifier].data.gridData.rowset;
         let processNewForm = new Promise(async(resolve, reject) => {
             let poForm = [];
@@ -103,19 +102,10 @@ const Mapper = () => {
             resolve(poForm);
         });
 
-        processNewForm.then(newForm => {
-            console.log(newForm);
-            return newForm;
-        });
+        return processNewForm;
     };
 
     return {
         jdeMapper
     };
 };
-
-const myFunc = function() {
-    let myP = Mapper().jdeMapper("fs_P43081_W43081A");
-};
-
-myFunc();

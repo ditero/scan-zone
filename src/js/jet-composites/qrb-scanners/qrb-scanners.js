@@ -1,28 +1,40 @@
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbutton','../data-table/data-table.loader', 'getItem', 'getPoForm', 'mapper', 'Quagga', 'purchase-order-process'], function (oj, ko, $) {
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbutton', '../data-table/data-table.loader', 'getItem', 'getPoForm', 'mapper', 'Quagga', 'purchase-order-process'],
+    function(oj, ko, $) {
         'use strict';
 
-        function ExampleComponentModel(context) {
+        function ScannerModel(context) {
             var self = this;
 
             self.composite = context.element;
-               // Scanner Selection
-               this.handleScannerChange = function (event, ui) {
-                if (ui.option === "checked") {
-                    if (ui.value === 'barcode') {
-                        $('.br').removeClass('hidden');
-                        $('.qr').addClass('hidden');
-                        // startScanner();
-                    } else if (ui.value === 'qr') {
-                        $('.br').addClass('hidden');
-                        $('.qr').removeClass('hidden');
-                        // Quagga.stop();
-                    }
-                }
+
+            // Scanner Selection
+            this.handleScannerChange = (event, ui) => {
+                let checked = ui.option === 'checked' ? true : false;
+
+                let process = checked == true ? Method(ui) : alert('Please Select A Scanner Type');
+            };
+            // Get Method
+            const Method = (ui) => {
+                let methodType = ui.value == 'barcode' ? 'barcode' : 'qr';
+
+                let activateMethod = type => type == 'barcode' ? activateBarcode() : type == 'qr' ? activateQR() : false;
+
+                activateMethod(methodType);
+            };
+            // Activate Method Type
+            const activateBarcode = () => {
+                $('.br').removeClass('hidden');
+                $('.qr').addClass('hidden');
+                // startScanner();
+            };
+            const activateQR = () => {
+                $('.br').addClass('hidden');
+                $('.qr').removeClass('hidden');
+                // Quagga.stop();
             };
 
-
-            context.props.then(function (propertyMap) {
+            context.props.then(function(propertyMap) {
                 //Store a reference to the properties for any later use
                 self.properties = propertyMap;
 
@@ -31,7 +43,7 @@ define(
             });
         };
 
-        ExampleComponentModel.prototype.attached = function (context) {
+        ScannerModel.prototype.attached = function(context) {
             $('#output-form').addClass('hidden');
             $('#poForm').addClass('hidden');
             $("#formTable").addClass('hidden');
@@ -43,10 +55,6 @@ define(
                 { id: 'barcode', label: 'Barcode' },
             ];
             this.opts = ko.observable("qr");
-
-
-            console.log(context);
-
             self.qrVal = ko.observable("");
             self.qr_state = ko.observable("");
             self.scanErrors = ko.observable("")
@@ -71,47 +79,32 @@ define(
             self.tableState = true;
 
             self.currentPage = ko.observable(0);
-            
-            // localStorage.setItem('currentPagination', 1);
 
             var storedqrVal = self.qrVal();
 
-            let watchqrVal = setInterval(function() {
-                // legetItem('currentPagination'));
-                if (self.qrVal() !== storedqrVal) {
-                    fsm.onProcessPO(self.qrVal());
-                    storedqrVal = self.qrVal();
-                }
+            let watchqrVal = setInterval(() => {
+                let stateOfqrValue = self.qrVal() !== storedqrVal ? fsm.onProcessPO(self.qrVal()) : false;
+
+                stateOfqrValue !== false ? storedqrVal = self.qrVal() : false;
             }, 100);
 
-            self.rescanPo = function() {
+            self.rescanPo = () => {
                 $('#poForm').addClass('hidden');
                 $('.alert').addClass('hidden');
                 self.qrVal("");
                 storedqrVal = self.qrVal();
-                self.currentPage(0);  
+                self.currentPage(0);
             }
 
             self.UpdateItem = function() {
                 fsm.onUpdateItem()
             }
-            // $('.pagination').on("click", function(event, num){
-            //     let cMovement = event.target.id;
-            //     if (cMovement === 'previousScreen') {
-            //         if (currentPage == 1) {
-            //             fsm.switchScreens(1)
-            //         } else {
-            //             currentPage--;
-            //             fsm.switchScreens(currentPage);
-            //         }
-            //     }
-            // });
 
             // fsm.onStartQRScanner();
         };
 
-        ExampleComponentModel.prototype.bindingsApplied = function (context) {
+        ScannerModel.prototype.bindingsApplied = function(context) {
             $('.br').addClass('hidden')
         };
-        return ExampleComponentModel;
+        return ScannerModel;
     });

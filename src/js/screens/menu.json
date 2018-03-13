@@ -1,15 +1,13 @@
-[
-    {
-        "id": 0,
-        "type": "button",
-        "value": "Purchase Order",
-        "enabled": true,
-        "name": "purchaseorder"
-    },{
-        "id": 1,
-        "type": "button",
-        "value": "Relocate Inventory",
-        "enabled": true,
-        "name": "relocateinventory"
-    }
-]
+[{
+    "id": 0,
+    "type": "button",
+    "value": "Purchase Order",
+    "enabled": true,
+    "name": "purchaseorder"
+}, {
+    "id": 1,
+    "type": "button",
+    "value": "Add Item",
+    "enabled": true,
+    "name": "additem"
+}]

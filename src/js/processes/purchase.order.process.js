@@ -7,7 +7,7 @@ var fsm = new StateMachine({
         { name: 'purchaseOrder', from: 'getPO', to: 'updateItem' }
     ],
     methods: {
-        onStartBarcodeScanner: function () {
+        onStartBarcodeScanner: function() {
             // Barcode Scanner
             // safely access `navigator.mediaDevices.getUserMedia
             if (navigator.mediaDevices && typeof navigator.mediaDevices.getUserMedia === 'function') {
@@ -54,7 +54,7 @@ var fsm = new StateMachine({
                         }
                     },
 
-                }, function (err) {
+                }, function(err) {
                     if (err) {
                         console.log(err);
                         return
@@ -67,20 +67,20 @@ var fsm = new StateMachine({
                     _scannerIsRunning = true;
                 });
 
-                Quagga.onDetected(function (data) {
+                Quagga.onDetected(function(data) {
                     console.log(data.codeResult.code)
-                    // console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
+                        // console.log("Barcode detected and processed : [" + result.codeResult.code + "]", result);
                 });
             }
         },
-        onStartQRScanner: function () {
+        onStartQRScanner: function() {
             // QR Scanner
             var video = document.querySelector('#preview');
 
             var scanner = new Instascan.Scanner({ video: video });
 
-            let scanResult = new Promise(function (resolve, reject) {
-                scanner.addListener('scan', async function (content) {
+            let scanResult = new Promise(function(resolve, reject) {
+                scanner.addListener('scan', async function(content) {
                     self.qr_state("Scanning..")
                     self.qrVal(content);
                     resolve(content);
@@ -92,17 +92,17 @@ var fsm = new StateMachine({
                     }
                 });
             });
-            Instascan.Camera.getCameras().then(function (cameras) {
+            Instascan.Camera.getCameras().then(function(cameras) {
                 if (cameras.length > 0) {
                     scanner.start(cameras[0]);
                 } else {
                     console.error('No cameras found.');
                 }
-            }).catch(function (e) {
+            }).catch(function(e) {
                 console.error(e);
             });
         },
-        onProcessPO: function (PO) {
+        onProcessPO: function(PO) {
             if (PO !== undefined || PO !== "") {
                 if (self.currentPage() == 1) {
                     this.onGetItem(PO);
@@ -113,77 +113,44 @@ var fsm = new StateMachine({
                 return false;
             }
         },
-        onGetPurchaseOrder: async function (PO) {
+        onGetPurchaseOrder: async function(PO) {
             // Make AJAX call
-            let item;
+            let itemPO;
+            let myPOForm = await Mapper().jdeMapper("fs_P43081_W43081A");
 
-            var form = new Promise(function (resolve, reject) {
-                $.getJSON('js/docs/po_step1.json', function () {
-                    console.log('success');
-                })
-                    .done(function (form) {
-                        if (form.fs_P43081_W43081A) {
-                            rowSet = form.fs_P43081_W43081A.data.gridData.rowset;
-                            rowSet.forEach(item => {
-                                if (item.mnOrderNumber_22.internalValue == Number(PO)) {
-                                    resolve(item);
-                                } else {
-                                    resolve(false);
-                                }
-                            });
-                        } else {
-                            console.log('did not find the form')
-                            resolve(false);
-                        }
-                    })
-                    .fail(function (err) {
-                        resolve(err);
-                    })
+            // get PO Number            
+            let existedPO = myPOForm.map((formItem) => {
+                let getPO = formItem['OrderNumber'].value == Number(PO) ? formItem : false;
+
+                return getPO
             });
 
-            let found = true;
+            // remve the false values if no item was found
+            let index = existedPO.indexOf(false);
+            existedPO.splice(index);
 
-            await form
-                .then(function (form) {
-                    if (form) {
-                        item = form;
-                    } else {
-                        found = false;
-                    }
-                });
-
-
-            console.log(found)
-
-            if (found == true) {
-                this.onsetValues(item);
-            } else if (found == false) {
-                this.onErrors('Purchase Not Found. Try Again.');
-            }
-
+            existedPO.length > 0 ? this.onsetValues(existedPO) : alert('PO Form Was Not Found!');
         },
-        onsetValues: async function (item) {
-            if (item) {
-                console.log(item);
-                CurrentItems = item;
-                self.poNumber(item.mnOrderNumber_22.internalValue);
-                self.poSupplier(item.sSupplierName_187.internalValue);
-                self.poOrderDate(item.dtOrderDate_65.value);
-                self.poTotalAmount(item.mnOrderAmount_183.internalValue);
+        onsetValues: async function(item) {
+            const populateValues = (po) => {
+                self.poNumber(po.OrderNumber.internalValue);
+                self.poSupplier(po.SupplierName.internalValue);
+                self.poOrderDate(po.OrderDate.value);
+                self.poTotalAmount(po.OrderAmount.internalValue);
 
                 this.onChangePage();
-            } else {
-                return false;
-            }
+            };
+
+            item !== undefined ? populateValues(item[0]) : alert('Something went wrong');
         },
-        onGetItem: async function (itemNo) {
+        onGetItem: async function(itemNo) {
             console.log(itemNo);
 
-            var item = new Promise(function (resolve, reject) {
-                $.getJSON('js/docs/po_step2.json', function () {
-                    console.log('success');
-                })
-                    .done(function (form) {
+            var item = new Promise(function(resolve, reject) {
+                $.getJSON('js/docs/po_step2.json', function() {
+                        console.log('success');
+                    })
+                    .done(function(form) {
                         if (form.fs_P43081_W43081B) {
                             CurrentItems = form.fs_P43081_W43081B.data.gridData.rowset;
                             CurrentItems.forEach(item => {
@@ -195,7 +162,7 @@ var fsm = new StateMachine({
                             });
                         }
                     })
-                    .fail(function (err) {
+                    .fail(function(err) {
                         resolve(err);
                     })
             });
@@ -203,7 +170,7 @@ var fsm = new StateMachine({
             let found = true;
 
             await item
-                .then(function (item) {
+                .then(function(item) {
                     console.log(item);
                     if (item['rowIndex'] == 0) {
                         self.itemNo(item.sItemNumber_81.internalValue);
@@ -225,11 +192,11 @@ var fsm = new StateMachine({
             if (found !== true) {
                 this.onErrors("Item Not Found. Please Rescan Or Enter Item Number Again.")
             } else {
-            this.onChangePage();
-                
-                }
+                this.onChangePage();
+
+            }
         },
-        onUpdateItem: async function () {
+        onUpdateItem: async function() {
             let status = false;
             var confirmed = $("#Confirm").prop('checked');
 
@@ -249,10 +216,10 @@ var fsm = new StateMachine({
                 url: "http://localhost:3001/updateItem/" + self.poNumber(),
                 data: JSON.stringify(itemToUpdate),
                 contentType: 'application/json',
-                fail: function (xhr, textStatus, errorThrow) { //if the request fail print the error
+                fail: function(xhr, textStatus, errorThrow) { //if the request fail print the error
                     console.log(xhr)
                 }
-            }).done(function (results) { //if successful print the token
+            }).done(function(results) { //if successful print the token
                 if (results.ok == 1) {
                     result = true;
                     console.log(results);
@@ -266,27 +233,27 @@ var fsm = new StateMachine({
                 alert('Something went wrong. Could not update the item');
             }
         },
-        onGetUpdatedInfo: async function () {
+        onGetUpdatedInfo: async function() {
             await $.ajax({
                 type: 'GET',
                 url: "http://localhost:3001/PO",
-                fail: function (xhr, textStatus, errorThrow) { //if the request fail print the error
+                fail: function(xhr, textStatus, errorThrow) { //if the request fail print the error
                     console.log(xhr)
                 }
-            }).done(function (results) { //if successful print the token
+            }).done(function(results) { //if successful print the token
                 self.tableData(results[0].Details);
                 console.log(results)
             });
 
             console.log(self.tableData())
         },
-        onChangePage: function () {
+        onChangePage: function() {
             let inc = self.currentPage() + 1;
             self.currentPage(inc);
             console.log(self.currentPage())
             this.switchScreens(self.currentPage());
         },
-        switchScreens: async function (index) {
+        switchScreens: async function(index) {
             switch (index) {
                 case 1:
                     $('#poForm').removeClass('hidden');
@@ -306,12 +273,12 @@ var fsm = new StateMachine({
                     break;
             }
         },
-        onErrors: async function (error) {
+        onErrors: async function(error) {
             $('#scanErrorElement').removeClass("hidden");
 
             self.scanErrors(error);
 
-            setTimeout(function () {
+            setTimeout(function() {
                 $('#scanErrorElement').addClass('hidden');
             }, 3500)
         }

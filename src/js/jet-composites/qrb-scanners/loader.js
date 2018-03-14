@@ -1,5 +1,5 @@
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbutton', '../data-table/data-table.loader', 'getItem', 'getPoForm', 'mapper', 'Quagga', 'purchase-order-process'],
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojbutton', '../data-table/data-table.loader', 'getItem', 'updateItem', 'getUpdatedInfo', 'getPoForm', 'mapper', 'Quagga', 'purchase-order-process'],
     function(oj, ko, $) {
         'use strict';
 

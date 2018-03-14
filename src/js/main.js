@@ -8,51 +8,49 @@
  * Example of Require.js boostrap javascript
  */
 
-requirejs.config(
-{
-  baseUrl: 'js',
+requirejs.config({
+    baseUrl: 'js',
 
-  // Path mappings for the logical module names
-  // Update the main-release-paths.json for release mode when updating the mappings
-  paths:
-  //injector:mainReleasePaths
-  {
-    'knockout': 'libs/knockout/knockout-3.4.0.debug',
-    'jquery': 'libs/jquery/jquery-3.1.1',
-    'jqueryui-amd': 'libs/jquery/jqueryui-amd-1.12.0',
-    'promise': 'libs/es6-promise/es6-promise',
-    'hammerjs': 'libs/hammer/hammer-2.0.8',
-    'ojdnd': 'libs/dnd-polyfill/dnd-polyfill-1.0.0',
-    'ojs': 'libs/oj/v4.1.0/debug',
-    'ojL10n': 'libs/oj/v4.1.0/ojL10n',
-    'ojtranslations': 'libs/oj/v4.1.0/resources',
-    'text': 'libs/require/text',
-    'signals': 'libs/js-signals/signals',
-    'customElements': 'libs/webcomponents/custom-elements.min',
-    'proj4': 'libs/proj4js/dist/proj4-src',
-    'css': 'libs/require-css/css',
-    'login-process': 'processes/login.process',
-    'getPoForm': 'data-service/getPoForm',
-    'getItem': 'data-service/getItem',
-    'mapper': 'mapper/jde.data.mapper',
-    'menu-process': 'processes/menu.process',
-    'purchase-order-process': 'processes/purchase.order.process',
-    'bootstrap-js': 'libs/bootstrap-4.0.0-dist/js/bootstrap.min',
-    'binaryTransport': 'libs/binaryTransport/binaryTransport',
-    'Quagga': 'libs/quagga/quagga'
-  }
-  //endinjector
-  ,
-  // Shim configurations for modules that do not expose AMD
-  shim:
-  {
-    'jquery':
+    // Path mappings for the logical module names
+    // Update the main-release-paths.json for release mode when updating the mappings
+    paths:
+    //injector:mainReleasePaths
     {
-      exports: ['jQuery', '$']
+        'knockout': 'libs/knockout/knockout-3.4.0.debug',
+        'jquery': 'libs/jquery/jquery-3.1.1',
+        'jqueryui-amd': 'libs/jquery/jqueryui-amd-1.12.0',
+        'promise': 'libs/es6-promise/es6-promise',
+        'hammerjs': 'libs/hammer/hammer-2.0.8',
+        'ojdnd': 'libs/dnd-polyfill/dnd-polyfill-1.0.0',
+        'ojs': 'libs/oj/v4.1.0/debug',
+        'ojL10n': 'libs/oj/v4.1.0/ojL10n',
+        'ojtranslations': 'libs/oj/v4.1.0/resources',
+        'text': 'libs/require/text',
+        'signals': 'libs/js-signals/signals',
+        'customElements': 'libs/webcomponents/custom-elements.min',
+        'proj4': 'libs/proj4js/dist/proj4-src',
+        'css': 'libs/require-css/css',
+        'login-process': 'processes/login.process',
+        'getPoForm': 'data-service/getPoForm',
+        'getItem': 'data-service/getItem',
+        'updateItem': 'data-service/updateItem',
+        'getUpdatedInfo': 'data-service/getUpdatedInfo',
+        'mapper': 'mapper/jde.data.mapper',
+        'menu-process': 'processes/menu.process',
+        'purchase-order-process': 'processes/purchase.order.process',
+        'bootstrap-js': 'libs/bootstrap-4.0.0-dist/js/bootstrap.min',
+        'binaryTransport': 'libs/binaryTransport/binaryTransport',
+        'Quagga': 'libs/quagga/quagga'
     }
-  }
-}
-);
+    //endinjector
+    ,
+    // Shim configurations for modules that do not expose AMD
+    shim: {
+        'jquery': {
+            exports: ['jQuery', '$']
+        }
+    }
+});
 
 /**
  * A top-level require call executed by the Application.
@@ -61,32 +59,33 @@ requirejs.config(
  * objects in the callback
  */
 require(['ojs/ojcore', 'knockout', 'appController', 'ojs/ojknockout',
-  'ojs/ojmodule', 'ojs/ojrouter', 'ojs/ojnavigationlist', 'ojs/ojbutton', 'ojs/ojtoolbar'],
-  function (oj, ko, app) { // this callback gets executed when all required modules are loaded
+        'ojs/ojmodule', 'ojs/ojrouter', 'ojs/ojnavigationlist', 'ojs/ojbutton', 'ojs/ojtoolbar'
+    ],
+    function(oj, ko, app) { // this callback gets executed when all required modules are loaded
 
-    $(function() {
+        $(function() {
 
-      function init() {
-        oj.Router.sync().then(
-          function () {
-            // Bind your ViewModel for the content of the whole page body.
-            ko.applyBindings(app, document.getElementById('globalBody'));
-          },
-          function (error) {
-            oj.Logger.error('Error in root start: ' + error.message);
-          }
-        );
-      }
+            function init() {
+                oj.Router.sync().then(
+                    function() {
+                        // Bind your ViewModel for the content of the whole page body.
+                        ko.applyBindings(app, document.getElementById('globalBody'));
+                    },
+                    function(error) {
+                        oj.Logger.error('Error in root start: ' + error.message);
+                    }
+                );
+            }
 
-      // If running in a hybrid (e.g. Cordova) environment, we need to wait for the deviceready 
-      // event before executing any code that might interact with Cordova APIs or plugins.
-      if ($(document.body).hasClass('oj-hybrid')) {
-        document.addEventListener("deviceready", init);
-      } else {
-        init();
-      }
+            // If running in a hybrid (e.g. Cordova) environment, we need to wait for the deviceready 
+            // event before executing any code that might interact with Cordova APIs or plugins.
+            if ($(document.body).hasClass('oj-hybrid')) {
+                document.addEventListener("deviceready", init);
+            } else {
+                init();
+            }
 
-    });
+        });
 
-  }
+    }
 );

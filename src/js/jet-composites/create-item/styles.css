@@ -1,0 +1,22 @@
+create-item:not(.oj-complete) {
+    visibility: hidden;
+}
+
+create-item {
+    width: 100vw;
+    height: 100vh;
+}
+
+create-item #item-text {
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    font-size: 23px;
+    letter-spacing: 2px;
+    word-spacing: -2.6px;
+    color: #000000;
+    font-weight: 400;
+    text-decoration: underline solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: small-caps;
+    text-transform: none;
+    text-align: center;
+}

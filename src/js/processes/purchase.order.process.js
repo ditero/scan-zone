@@ -120,137 +120,103 @@ var fsm = new StateMachine({
 
             // get PO Number            
             let existedPO = myPOForm.map((formItem) => {
-                let getPO = formItem['OrderNumber'].value == Number(PO) ? formItem : false;
+                let getPO = Number(formItem['OrderNumber'].value) == Number(PO) ? formItem : false;
 
                 return getPO
             });
 
-            // remve the false values if no item was found
-            let index = existedPO.indexOf(false);
-            existedPO.splice(index);
+            // remove the false values
+            let foundPo = existedPO.indexOf(false) !== -1 ? (function() {
+                let index = existedPO.indexOf(false);
+                existedPO.splice(index);
+                return existedPO;
+            }()) : existedPO;
 
-            existedPO.length > 0 ? this.onsetValues(existedPO) : alert('PO Form Was Not Found!');
+            foundPo.length > 0 ? this.onsetValues(existedPO, "po") : this.onErrors('PO Form Was Not Found! Try Entering a PO Number Again');
         },
-        onsetValues: async function(item) {
-            const populateValues = (po) => {
-                self.poNumber(po.OrderNumber.internalValue);
-                self.poSupplier(po.SupplierName.internalValue);
+        onGetItem: async function(itemNo) {
+            // get items list
+            let myItems = await Mapper().jdeMapper("fs_P43081_W43081B");
+
+            // get Item Number
+            let existedItem = myItems.map((item) => {
+                let currentItemNo = item['ItemNumber'].value;
+
+                let getItem = Number(currentItemNo) == Number(itemNo) ? item : false;
+
+                return getItem;
+            });
+
+            // remove the false values
+            let foundItem = existedItem.indexOf(false) !== -1 ? (function() {
+                let index = existedItem.indexOf(false);
+                existedItem.splice(index);
+                return existedItem
+            }()) : existedItem;
+
+            foundItem.length > 0 ? this.onsetValues(existedItem, "item") : this.onErrors('Item Not Found. Please Rescan Or Enter Item Number Again.');
+        },
+        onsetValues: async function(data, type) {
+            const populatePO = (po) => {
+                self.poNumber(po.OrderNumber.value);
+                self.poSupplier(po.SupplierName.value);
                 self.poOrderDate(po.OrderDate.value);
-                self.poTotalAmount(po.OrderAmount.internalValue);
+                self.poTotalAmount(po.OrderAmount.value);
 
                 this.onChangePage();
             };
 
-            item !== undefined ? populateValues(item[0]) : alert('Something went wrong');
-        },
-        onGetItem: async function(itemNo) {
-            console.log(itemNo);
-
-            var item = new Promise(function(resolve, reject) {
-                $.getJSON('js/docs/po_step2.json', function() {
-                        console.log('success');
-                    })
-                    .done(function(form) {
-                        if (form.fs_P43081_W43081B) {
-                            CurrentItems = form.fs_P43081_W43081B.data.gridData.rowset;
-                            CurrentItems.forEach(item => {
-                                if (item.sItemNumber_81.internalValue == itemNo) {
-                                    resolve(item);
-                                } else {
-                                    resolve(false);
-                                }
-                            });
-                        }
-                    })
-                    .fail(function(err) {
-                        resolve(err);
-                    })
-            });
-
-            let found = true;
-
-            await item
-                .then(function(item) {
-                    console.log(item);
-                    if (item['rowIndex'] == 0) {
-                        self.itemNo(item.sItemNumber_81.internalValue);
-                        self.itemCost(item.mnUnitCost_82.internalValue);
-                        self.itemQty(item.mnQuantityOrdered_80.internalValue);
-                        self.itemDesc(item.sDescription_68.internalValue);
-                        if (item.sStatus_151.internalValue == "Cancelled") {
-                            self.pending(true);
-                            self.confirm(false)
-                        } else {
-                            self.pending(false);
-                            self.confirm(true)
-                        }
-                    } else {
-                        found = false;
-                    }
-                });
-
-            if (found !== true) {
-                this.onErrors("Item Not Found. Please Rescan Or Enter Item Number Again.")
-            } else {
+            const populateItem = (item) => {
+                self.itemNo(item.ItemNumber.value);
+                self.itemCost(item.UnitCost.value);
+                self.itemQty(item.QuantityOrdered.value);
+                self.itemDesc(item.Description.value);
+                item.Status.value == 'Cancelled' ? () => {
+                    self.pending(!false);
+                    self.confirm(!true);
+                } : () => {
+                    self.pending(!false);
+                    self.confirm(!true);
+                };
                 this.onChangePage();
+            };
 
-            }
+            type == "po" ? populatePO(data[0]) : type == 'item' ? populateItem(data[0]) : alert('Something Went Horribly Wrong !');
         },
+
         onUpdateItem: async function() {
             let status = false;
             var confirmed = $("#Confirm").prop('checked');
-
-            console.log(confirmed);
+            let modifiedCost = self.itemCost().split(",").join("");
 
             let itemToUpdate = {
-                ItemNo: self.itemNo(),
-                Cost: Number(self.itemCost()),
+                ItemNo: Number(self.itemNo()),
+                Cost: parseFloat(modifiedCost).toFixed(2),
                 Qty: Number(self.itemQty()),
                 Status: confirmed
-            }
-            let result = false;
+            };
 
             // Update The Information
-            await $.ajax({
-                type: 'POST',
-                url: "http://localhost:3001/updateItem/" + self.poNumber(),
-                data: JSON.stringify(itemToUpdate),
-                contentType: 'application/json',
-                fail: function(xhr, textStatus, errorThrow) { //if the request fail print the error
-                    console.log(xhr)
-                }
-            }).done(function(results) { //if successful print the token
-                if (results.ok == 1) {
-                    result = true;
-                    console.log(results);
-                }
-            });
+            let results = await updateItem().itemUpdated(itemToUpdate, self.poNumber());
 
-            if (result == true) {
+            // success function to change page and get updated info
+            const processUpdates = () => {
                 this.onChangePage();
                 this.onGetUpdatedInfo();
-            } else {
-                alert('Something went wrong. Could not update the item');
-            }
+            };
+
+            // Check wether the update was successful
+            results.message == 'success' ? processUpdates() : alert('Something went wrong. Could not update the item. Review your values');
         },
         onGetUpdatedInfo: async function() {
-            await $.ajax({
-                type: 'GET',
-                url: "http://localhost:3001/PO",
-                fail: function(xhr, textStatus, errorThrow) { //if the request fail print the error
-                    console.log(xhr)
-                }
-            }).done(function(results) { //if successful print the token
-                self.tableData(results[0].Details);
-                console.log(results)
-            });
-
-            console.log(self.tableData())
+            let updatedItems = await queryUpdates().getUpdatedItems();
+            updatedItems.length > 0 ? self.tableData(updatedItems[0].Details) : alert('Could not retrieve updated information.');
         },
         onChangePage: function() {
             let inc = self.currentPage() + 1;
             self.currentPage(inc);
-            console.log(self.currentPage())
+            let checkingProcess = `Currently at process No. ${self.currentPage()}`;
+            console.log(checkingProcess);
             this.switchScreens(self.currentPage());
         },
         switchScreens: async function(index) {
@@ -275,13 +241,8 @@ var fsm = new StateMachine({
         },
         onErrors: async function(error) {
             $('#scanErrorElement').removeClass("hidden");
-
             self.scanErrors(error);
-
-            setTimeout(function() {
-                $('#scanErrorElement').addClass('hidden');
-            }, 3500)
+            setTimeout(() => $('#scanErrorElement').addClass('hidden'), 3500);
         }
-
     }
 });

@@ -1,20 +1,18 @@
-define(['ojs/ojcore', 'knockout', 'jquery', 'jet-composites/create-item/loader', 'menu-process'],
+define(['ojs/ojcore', 'knockout', 'jquery', 'addItemProcess', 'jet-composites/create-item/loader'],
     function(oj, ko, $) {
 
         function MenuViewModel() {
             var self = this;
 
-            // const getMenuValues = new Promise(async function(resolve, reject){
-            //   let menuValues = await fsm.MenuScreen();
+            // Get Screen
+            const getAddItemValues = new Promise((resolve, reject) => {
+                let values = fsm.BuildScreen();
+                resolve(values);
+            }).then((itemValues) => {
+                self.itemInputs(itemValues);
+            });
 
-            //   resolve(menuValues);
-            // });
-
-            // getMenuValues.then(function(menuValues) {
-            //     self.menuInputs(menuValues)
-            // });
-
-            // self.menuInputs = ko.observable();
+            self.itemInputs = ko.observable();
         }
         return new MenuViewModel();
     }

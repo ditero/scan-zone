@@ -1,0 +1,22 @@
+[{
+    "id": 0,
+    "type": "text",
+    "label": "Item Number",
+    "placeholder": "Item Number",
+    "enabled": true,
+    "name": "itemno"
+}, {
+    "id": 1,
+    "type": "text",
+    "label": "Item Description",
+    "placeholder": "Description",
+    "enabled": true,
+    "name": "itemdesc"
+}, {
+    "id": 2,
+    "type": "text",
+    "label": "Item Quantity",
+    "placeholder": "QTY",
+    "enabled": true,
+    "name": "itemqty"
+}]

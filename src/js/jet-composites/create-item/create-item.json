@@ -1,18 +1,21 @@
 {
-  "name": "create-item",
-  "displayName": "create-item",
-  "description": "Describe your component here",
-  "version": "1.0.0",
-  "jetVersion": "4.2.0",
-  "properties": {
-  },
-  "methods": {
+    "name": "create-item",
+    "displayName": "create-item",
+    "description": "Describe your component here",
+    "version": "1.0.0",
+    "jetVersion": "4.2.0",
+    "properties": {
+        "screenArray": {
+            "type": "Array"
+        }
+    },
+    "methods": {
 
-  }, 
-  "events": {
+    },
+    "events": {
 
-  }, 
-  "slots": {
+    },
+    "slots": {
 
-  }
+    }
 }

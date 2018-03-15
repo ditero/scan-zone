@@ -31,6 +31,7 @@ requirejs.config({
         'proj4': 'libs/proj4js/dist/proj4-src',
         'css': 'libs/require-css/css',
         'login-process': 'processes/login.process',
+        'StartScanner': 'scanners/scanner.starting',
         'getPoForm': 'data-service/getPoForm',
         'getItem': 'data-service/getItem',
         'updateItem': 'data-service/updateItem',
@@ -38,6 +39,7 @@ requirejs.config({
         'mapper': 'mapper/jde.data.mapper',
         'menu-process': 'processes/menu.process',
         'purchase-order-process': 'processes/purchase.order.process',
+        'addItemProcess': 'processes/addItem.process',
         'bootstrap-js': 'libs/bootstrap-4.0.0-dist/js/bootstrap.min',
         'binaryTransport': 'libs/binaryTransport/binaryTransport',
         'Quagga': 'libs/quagga/quagga'

@@ -1,2 +1,28 @@
 <div class="oj-flex"><a data-bind="click: navigateHome">Back To Menu</a></div>
 <h1 id="item-text">Add New Item</h1>
+
+<video id="addItemScanner"></video>
+
+<form>
+    <div id="inputForm" data-bind="foreach: $props.screenArray">
+        <!-- ko if: $data['type'] == "text" -->
+        <div class="form-group row">
+            <!-- <label for="inputServer" class="col-sm-2 col-form-label" data-bind="text: label"></label> -->
+            <div class="col-sm-10">
+                <input type="text" class="form-control mb-2 mr-sm-2 form-control-lg newItemInputs" data-bind="attr: {id: id, placeholder: placeholder, enabled: enabled, name: name}">
+            </div>
+        </div>
+        <!-- /ko -->
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-success addItemBtn" data-bind="click: getInputs">Add New Item</button>
+        </div>
+    </div>
+</form>
+
+<div class="spinner hidden">
+    <div class="bounce1"></div>
+    <div class="bounce2"></div>
+    <div class="bounce3"></div>
+</div>

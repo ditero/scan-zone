@@ -3,7 +3,7 @@
   The Universal Permissive License (UPL), Version 1.0
 */
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'StartScanner', 'addItemProcess'],
+    ['ojs/ojcore', 'knockout', 'jquery', 'StartScanner', 'addItemProcess', 'addItemOrchestrator'],
     function(oj, ko, $, scanner) {
         'use strict';
 
@@ -21,7 +21,8 @@ define(
             self.qrVal = ko.observable();
             self.currentPage = ko.observable();
 
-            self.getInputs = async() => {
+            self.getInputs = () => {
+                console.log('Running Click Event');
                 $(".spinner").removeClass('hidden');
                 $('.newItemInputs').each((index, item) => {
                     let name = item.name;
@@ -29,7 +30,7 @@ define(
                     self.inputs[name] = value;
                 });
                 console.log(self.inputs);
-                await fsm.ProcessInputs(self.inputs)
+                fsm.ProcessInputs(self.inputs)
             };
 
 
@@ -39,17 +40,11 @@ define(
             });
         };
 
-
         CreateItemModel.prototype.attached = function(context) {
             let elem = document.querySelector('#addItemScanner');
             // pick a scanner to start
             // let content = ScannerStarting().onStartQRScanner(elem);
 
-            // setInterval(() => {
-            //     console.log(self.qr_state());
-            // }, 1000);
-
-            // console.log(content);
         };
 
         return CreateItemModel;

@@ -40,6 +40,7 @@ requirejs.config({
         'menu-process': 'processes/menu.process',
         'purchase-order-process': 'processes/purchase.order.process',
         'addItemProcess': 'processes/addItem.process',
+        'addItemOrchestrator': 'orchestrations/CAM_NewItemAdd_4101',
         'bootstrap-js': 'libs/bootstrap-4.0.0-dist/js/bootstrap.min',
         'binaryTransport': 'libs/binaryTransport/binaryTransport',
         'Quagga': 'libs/quagga/quagga'

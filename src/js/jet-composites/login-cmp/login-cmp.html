@@ -1,33 +1,46 @@
-<form>
+<div class="demo-padding demo-container" style="margin-top: 75px">
   <div id="inputForm" data-bind="foreach: $props.screenArray">
   <!-- ko if: $data['type'] == "text" -->
-  <div class="form-group row">
-      <label for="inputServer" class="col-sm-2 col-form-label" data-bind="text: label"></label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control mb-2 mr-sm-2 loginInputs" data-bind="attr: {id: id, placeholder: placeholder, enabled: enabled, name: name}">
+  <div class="oj-flex oj-lg-align-items-center ">
+    <div class="oj-flex-item"></div>
+      <label for="inputServer" class="col-md-2 col-form-label" data-bind="text: label"></label>
+      <div class="oj-form oj-sm-12 oj-lg-4 oj-md-6 oj-flex-item">
+        <input style="margin-bottom: 20px" type="text" class="form-control loginInputs" data-bind="attr: {id: id, placeholder: placeholder, enabled: enabled, name: name}">
       </div>
+    <div class="oj-flex-item"></div>
+
+    
+      
     </div>
     <!-- /ko -->
   
     <!-- ko if: $data['name'] == "password" -->
-    <div class="form-group row">
-      <label for="inputPassword3" class="col-sm-2 col-form-label" data-bind="text: label"></label>
-      <div class="col-sm-10">
-        <input type="password" class="form-control loginInputs" data-bind="attr: {id: id, placeholder: placeholder, enabled: enabled, name: name}">
+    <div class="oj-flex oj-lg-align-items-center">
+    <div class="oj-flex-item"></div>
+      
+      <label for="inputPassword3" class="col-md-2 col-form-label" data-bind="text: label"></label>
+      <div class="j-form oj-sm-12 oj-lg-4 oj-md-6 oj-flex-item">
+        <input style="margin-bottom: 20px"type="password" class="form-control loginInputs" data-bind="attr: {id: id, placeholder: placeholder, enabled: enabled, name: name}">
       </div>
+    <div class="oj-flex-item"></div>
+      
     </div>
     <!-- /ko -->
 
     
   </div>
 
-  <div class="form-group row">
-    <div class="col-sm-10">
+  <div class="oj-flex oj-lg-align-items-center">
+      <div class="oj-flex-item oj-sm-4 oj-lg-7"></div>
+    
+    <div class="j-form oj-sm-12 oj-lg-2 oj-md-6 oj-flex-item">
       <button type="submit" class="btn btn-primary loginBtn" data-bind="click: login">Sign in</button>
     </div>
+    <div class="oj-flex-item oj-sm-4 oj-lg-3"></div>
+    
   </div>
 
-</form>
+</div>
 <div id="validation" class="alert alert-danger hidden" data-bind="text: validMsg" role="alert"></div>
 </div>
 

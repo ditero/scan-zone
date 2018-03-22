@@ -1,7 +1,11 @@
 <h1 id="item-text">Purchase Order</h1>
 <div class="container" id="scan-controls">
   <div id='buttons-container'>
-    <div class="button-select" data-bind="ojComponent: {component: 'ojButtonset', checked: opts, 
+      <div class="oj-flex oj-lg-align-items-center">
+          <div class="oj-flex-item"></div>
+          <!-- <label for="inputPassword3" class="col-md-2 col-form-label" data-bind="text: label"></label> -->
+          <div class="j-form oj-sm-12 oj-lg-4 oj-md-6 oj-flex-item">
+           <div class="button-select" data-bind="ojComponent: {component: 'ojButtonset', checked: opts, 
                                 optionChange: handleScannerChange}" aria-label="Choose only one scanner.">
       <!-- ko foreach: scanners -->
       <label data-bind="attr: {for: id}"></label>
@@ -9,6 +13,10 @@
                             ojComponent: { component: 'ojButton', label: label }" />
       <!-- /ko -->
     </div>
+          </div>
+          <div class="oj-flex-item"></div>
+        </div>
+    
   </div>
 
   <br/>

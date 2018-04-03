@@ -25,12 +25,40 @@ var fsm = new StateMachine({
         onGetToken: async function (credentials, deviceName) {
             console.log('Verifying User On JDE');
             if (credentials['username'] && credentials['password']) {
-                var cUser = { username: credentials.username, password: credentials.password, deviceName };
+                var cUser = { username: credentials.username, password: credentials.password, deviceName};
             }
             
-            console.log(cUser);
-
-            // await $.ajax({
+            if (credentials.ais === "http://localhost:3001/scanZone") {
+                console.log(cUser);         
+                console.log(credentials.ais)
+                await $.ajax({
+                    url: 'http://localhost:3001/scanZone', // "http://localhost:3001/login", // <<- ScanZone API token service
+                    type: 'post', // <<- the method that we using
+                    data: JSON.stringify(cUser), // <<- JSON of our request obj
+                    contentType: 'application/json', // <<- telling server how we are going to communicate
+                    authorization: 'bearer',
+                    fail: function(xhr, textStatus, errorThrown) {
+        
+                      console.log(errorThrown, textStatus, xhr); //  <<- log any http errors to the console
+                        return false;  
+                    }
+                  }).done(function(results, textStatus, xhr, auth) {
+                   console.log(results);
+                 oj.Router.rootInstance.go('dashboard');
+                   
+                   if (results.token) {
+                    //set token in local storage
+                    localStorage.setItem('token', results.token);
+                    //set username in local storage
+                    localStorage.setItem('username', results.username);
+                }
+                  });
+                
+            }else if (credentials.ais === "http://demo.steltix.com" || "http://sandbox921.steltix.com") {
+                console.log(cUser);         
+                console.log(credentials.ais)
+            
+            //      await $.ajax({
             //     type: 'post',
             //     data: JSON.stringify(cUser),
             //     contentType: "application/json",
@@ -46,12 +74,19 @@ var fsm = new StateMachine({
             //         //set username in local storage
             //         localStorage.setItem('username', JSON.stringify(results.username));
             //     }
+            //     oj.Router.rootInstance.go('menu');
+                
             // });
+            oj.Router.rootInstance.go('menu');
+            
+                
+            }
+                      
 
-            this.onLogin();        
+           // this.onLogin();        
         },
         onLogin: function () {
-                 oj.Router.rootInstance.go('menu');
+                 oj.Router.rootInstance.go('dashboard');
          }
     }
 });

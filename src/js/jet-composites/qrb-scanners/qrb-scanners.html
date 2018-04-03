@@ -1,132 +1,148 @@
 <h1 id="item-text">Purchase Order</h1>
 <div class="container" id="scan-controls">
-  <div id='buttons-container'>
-      <div class="oj-flex oj-lg-align-items-center">
-          <div class="oj-flex-item"></div>
-          <!-- <label for="inputPassword3" class="col-md-2 col-form-label" data-bind="text: label"></label> -->
-          <div class="j-form oj-sm-12 oj-lg-4 oj-md-6 oj-flex-item">
-           <div class="button-select" data-bind="ojComponent: {component: 'ojButtonset', checked: opts, 
+    <div id='buttons-container'>
+        <div class="oj-flex oj-lg-align-items-center">
+            <div class="oj-flex-item"></div>
+            <!-- <label for="inputPassword3" class="col-md-2 col-form-label" data-bind="text: label"></label> -->
+            <div class="j-form oj-sm-12 oj-lg-4 oj-md-6 oj-flex-item">
+                <div class="button-select" data-bind="ojComponent: {component: 'ojButtonset', checked: opts, 
                                 optionChange: handleScannerChange}" aria-label="Choose only one scanner.">
-      <!-- ko foreach: scanners -->
-      <label data-bind="attr: {for: id}"></label>
-      <input type="radio" name="scanner" data-bind="value: id, attr: {id: id}, 
+                    <!-- ko foreach: scanners -->
+                    <label data-bind="attr: {for: id}"></label>
+                    <input type="radio" name="scanner" data-bind="value: id, attr: {id: id}, 
                             ojComponent: { component: 'ojButton', label: label }" />
-      <!-- /ko -->
-    </div>
-          </div>
-          <div class="oj-flex-item"></div>
+                    <!-- /ko -->
+                </div>
+            </div>
+            <div class="oj-flex-item"></div>
         </div>
-    
-  </div>
 
-  <br/>
-  <div class="qr">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">QR Code</li>
-      </ol>
-    </nav>
-    <input class="form-control form-control-lg" type="text" placeholder="PO Code" data-bind="value: qrVal">
-    <video id="preview"></video>
-  </div>
+    </div>
 
-  <div class="br">
-    <nav aria-label="breadcrumb">
-      <ol class="breadcrumb">
-        <li class="breadcrumb-item active" aria-current="page">Barcode</li>
-      </ol>
-    </nav>
-    <!-- <input class="form-control form-control-lg" type="text" placeholder="PO Code" data-bind="value: qrVal"> -->
+    <br/>
+    <div class="qr">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">QR Code</li>
+            </ol>
+        </nav>
+        <input class="form-control form-control-lg" type="text" placeholder="PO Code" data-bind="value: qrVal">
+        <br>
+        <div class="oj-flex oj-lg-align-items-center">
+            <div class="oj-flex-item"></div>
+            <div class="j-form oj-sm-12 oj-lg-4 oj-md-6 oj-flex-item">
+                <video id="preview"></video>
+               
+            </div>
+            <div class="oj-flex-item"></div>
+        </div>
+        
+    </div>
 
-    <div id="scanelem"></div>
-  </div>
+    <div class="br">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active" aria-current="page">Barcode</li>
+            </ol>
+        </nav>
+        <!-- <input class="form-control form-control-lg" type="text" placeholder="PO Code" data-bind="value: qrVal"> -->
 
-  <div class="alert alert-danger hidden" id="scanErrorElement" role="alert" data-bind="text: scanErrors"></div>  
+        <div id="scanelem"></div>
+    </div>
+
+    <div class="alert alert-danger hidden" id="scanErrorElement" role="alert" data-bind="text: scanErrors"></div>
 </div>
 
 <div id="poForm">
-  <div class="demo-flex-display oj-flex-items-pad">
-    <div class="oj-flex">
-      <div class="oj-flex-item">
-        <h2 class="oj-header-border">PO:
-          <span data-bind="text: poNumber"></span>
-        </h2>
-        <p>
-          <span class="oj-text-primary-color">Supplier: </span>
-          <span class="oj-text-secondary-color" data-bind="text: poSupplier"></span>
-        </p>
-        <p>
-          <span class="oj-text-primary-color">Order Date: </span>
-          <span class="oj-text-secondary-color" data-bind="text: poOrderDate"></span>
-        </p>
-        <p>
-          <span class="oj-text-primary-color">Total Amount: </span>
-          <span class="oj-text-secondary-color" data-bind="text: poTotalAmount"></span>
-        </p>
-        <div class="alert alert-success hidden" id="scanSuccess" role="alert">Found PO Form ! Scan Your Item Now...</div>
-        <div class="oj-flex-item" id="rescanPO">
-          <div class="oj-flex-item"><button type="button" class="btn btn-info" data-bind="click: rescanPo">Rescan PO Number</button></div>
+    <div class="demo-flex-display oj-flex-items-pad">
+        <div class="oj-flex">
+            <div class="oj-flex-item">
+                <h2 class="oj-header-border">PO:
+                    <span data-bind="text: poNumber"></span>
+                </h2>
+                <p>
+                    <span class="oj-text-primary-color">Supplier: </span>
+                    <span class="oj-text-secondary-color" data-bind="text: poSupplier"></span>
+                </p>
+                <p>
+                    <span class="oj-text-primary-color">Order Date: </span>
+                    <span class="oj-text-secondary-color" data-bind="text: poOrderDate"></span>
+                </p>
+                <p>
+                    <span class="oj-text-primary-color">Total Amount: </span>
+                    <span class="oj-text-secondary-color" data-bind="text: poTotalAmount"></span>
+                </p>
+                <div class="alert alert-success hidden" id="scanSuccess" role="alert">Found PO Form ! Scan Your Item Now...</div>
+                <div class="oj-flex-item" id="rescanPO">
+                    <div class="oj-flex-item"><button type="button" class="btn btn-info" data-bind="click: rescanPo">Rescan PO Number</button></div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 
 
 <!-- OUTPUT OF PO RECORD -->
 <div class="container" id="output-form">
-  <form>
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Item No.</span>
-      </div>
-      <input type="text" class="form-control" aria-label="Default" data-bind="value: itemNo" aria-describedby="inputGroup-sizing-default"
-        id="itemNo" name="itemNo">
-    </div>
-
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Item Description </span>
-      </div>
-      <input type="text" class="form-control" aria-label="Default" data-bind="value: itemDesc" aria-describedby="inputGroup-sizing-default"
-        id="itemDesc" name="itemDesc">
-    </div>
-
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Item Cost </span>
-      </div>
-      <input type="text" class="form-control" aria-label="Default" data-bind="value: itemCost" aria-describedby="inputGroup-sizing-default"
-        id="itemCost" name="itemCost">
-    </div>
-
-    <div class="input-group mb-3">
-      <div class="input-group-prepend">
-        <span class="input-group-text" id="inputGroup-sizing-default">Item Qty </span>
-      </div>
-      <input type="text" class="form-control" aria-label="Default" data-bind="value: itemQty" aria-describedby="inputGroup-sizing-default"
-        id="itemQty" name="itemQty">
-    </div>
-    <div class="form-group row">
-      <label for="inputStatus" class="col-sm-2 col-form-label">Status: </label>
-      <div class="col-sm-10">
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="status" id="Pending" data-bind="attr: {checked: pending}" value="pending">
-          <label class="form-check-label" for="exampleRadios1"> Pending</label>
+    <form>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Item No.</span>
+            </div>
+            <input type="text" class="form-control" aria-label="Default" data-bind="value: itemNo" aria-describedby="inputGroup-sizing-default" id="itemNo" name="itemNo">
         </div>
-        <div class="form-check form-check-inline">
-          <input class="form-check-input" type="radio" name="status" id="Confirm" value="confirm" data-bind="attr: {checked: confirm}">
-          <label class="form-check-label" for="exampleRadios1"> Confirm</label>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Item Description </span>
+            </div>
+            <input type="text" class="form-control" aria-label="Default" data-bind="value: itemDesc" aria-describedby="inputGroup-sizing-default" id="itemDesc" name="itemDesc">
         </div>
-      </div>
-    </div>
-    <div class="oj-flex">
-      <div class="oj-flex-item"><button type="button" class="btn btn-success" data-bind="click: UpdateItem">Accept</button></div>
-    </div>
-  </form>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Item Cost </span>
+            </div>
+            <input type="text" class="form-control" aria-label="Default" data-bind="value: itemCost" aria-describedby="inputGroup-sizing-default" id="itemCost" name="itemCost">
+        </div>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default">Item Qty </span>
+            </div>
+            <input type="text" class="form-control" aria-label="Default" data-bind="value: itemQty" aria-describedby="inputGroup-sizing-default" id="itemQty" name="itemQty">
+        </div>
+        <div class="form-group row">
+            <label for="inputStatus" class="col-sm-2 col-form-label">Status: </label>
+            <div class="col-sm-10">
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status" id="Pending" data-bind="attr: {checked: pending}" value="pending">
+                    <label class="form-check-label" for="exampleRadios1"> Pending</label>
+                </div>
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="status" id="Confirm" value="confirm" data-bind="attr: {checked: confirm}">
+                    <label class="form-check-label" for="exampleRadios1"> Confirm</label>
+                </div>
+            </div>
+        </div>
+        <div class="oj-flex">
+            <div class="oj-flex-item"><button type="button" class="btn btn-success btn-block" data-bind="click: UpdateItem">Accept</button></div>
+        </div>
+    </form>
 </div>
 
 
 <div class="container" id="formTable">
-  <data-table form-data="{{tableData}}"></data-table>
+    
+    <data-table form-data="{{tableData}}"></data-table>
+    <br>
+    <div class="oj-flex oj-lg-align-items-center">
+        <!-- <div class="oj-flex-item oj-sm-4"></div> -->
+        <div class="j-form oj-sm-12 oj-lg-4 oj-md-6 oj-flex-item">
+        <div style="margin-top: 20px" class="oj-flex-item"><button type="button" class="btn btn-info btn-block" data-bind="click: scanNextPO">Scan Next PO</button></div>
+          
+        </div>
+        <div class="oj-flex-item oj-sm-4"></div>
+    </div>
+
 </div>

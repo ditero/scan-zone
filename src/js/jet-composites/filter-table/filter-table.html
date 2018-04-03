@@ -1,0 +1,43 @@
+<!-- <input type="text" data-bind="value: filterBy, event: {keypress: doAThing}" placeholder="Filter" /> -->
+<div class="filter-table">
+    <input type="text" data-bind="textInput: filterBy" placeholder="Filter" />
+    </br></br>
+    <!-- <table data-bind="attr: {'id': tableId}, ojComponent: {component: 'ojTable',
+                                    optionChange: rowclicked,
+                                    selectionMode: {row: 'single', column: 'multiple'},
+                                    display: 'grid',
+                                    data: datasource,
+                                    scrollPolicy: 'loadMoreOnScroll',
+                                    dnd: {'reorder': {columns: 'enabled'}},
+                                    columns: headerArray}">
+    </table> -->
+
+  </div>
+      <oj-table id="table" data="[[datasource]]"
+        columns='[{"headerText": "Picker",
+                   "field": "Picker_Username", "sortable": "enabled"},
+                  {"headerText": "CODE",
+                   "field": "UserId", "sortable": "enabled"},
+                    {"headerText": "Task Done",
+                    "field": "Log", "sortable": "enabled"},
+                 {"headerText": "Login Time",
+                   "field": "Log", "sortable": "enabled"},
+                   {"headerText": "Logout Time",
+                     "field": "Log", "sortable": "enabled"}]'
+        selectionMode='{"row": "none", "column": "none"}'
+        row-renderer='[[oj.KnockoutTemplateUtils.getRenderer("row_tmpl", true)]]'>
+      </oj-table>
+      <script type="text/html" id="row_tmpl">
+          <tr>
+              <td><div id='PickName' data-bind="text: Picker_Username"></div></td>
+              <td><div id="userId" data-bind="text: UserId"></div></td>
+              <td><div id="task" data-bind="text: Log.Task_Done"></div></td>              
+              <td><div id="login" data-bind="text: Log.Login_Time"></div></td>
+              <td><div id="logout" data-bind="text: Log.Logout_Time"></div></td>
+
+
+
+          </tr>
+      </script>
+
+</div>

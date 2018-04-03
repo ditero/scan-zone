@@ -1,0 +1,7 @@
+logs-visuals:not(.oj-complete){
+  visibility: hidden;
+}
+
+logs-visuals{
+
+}

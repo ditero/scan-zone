@@ -118,43 +118,34 @@ var fsm = new StateMachine({
             let itemPO;
             let myPOForm = await Mapper().jdeMapper("fs_P43081_W43081A");
 
-            // get PO Number            
-            let existedPO = myPOForm.map((formItem) => {
-                let getPO = Number(formItem['OrderNumber'].value) == Number(PO) ? formItem : false;
-
-                return getPO
+            // get PO Number
+            let getPO = [];
+            myPOForm.map((formItem) => {
+                if (formItem['OrderNumber'].value == PO) {
+                    getPO.push(formItem)
+                } else {
+                    return false
+                }
             });
-
-            // remove the false values
-            let foundPo = existedPO.indexOf(false) !== -1 ? (function() {
-                let index = existedPO.indexOf(false);
-                existedPO.splice(index);
-                return existedPO;
-            }()) : existedPO;
-
-            foundPo.length > 0 ? this.onsetValues(existedPO, "po") : this.onErrors('PO Form Was Not Found! Try Entering a PO Number Again');
+            console.log(getPO);
+            getPO.length > 0 ? this.onsetValues(getPO, "po") : this.onErrors('PO Form Was Not Found! Try Entering a PO Number Again');
         },
         onGetItem: async function(itemNo) {
             // get items list
             let myItems = await Mapper().jdeMapper("fs_P43081_W43081B");
 
             // get Item Number
-            let existedItem = myItems.map((item) => {
+            let foundItem = [];
+            myItems.map((item) => {
                 let currentItemNo = item['ItemNumber'].value;
-
-                let getItem = Number(currentItemNo) == Number(itemNo) ? item : false;
-
-                return getItem;
+                if (Number(currentItemNo) == Number(itemNo)) {
+                    foundItem.push(item)
+                } else {
+                    return false
+                }
             });
 
-            // remove the false values
-            let foundItem = existedItem.indexOf(false) !== -1 ? (function() {
-                let index = existedItem.indexOf(false);
-                existedItem.splice(index);
-                return existedItem
-            }()) : existedItem;
-
-            foundItem.length > 0 ? this.onsetValues(existedItem, "item") : this.onErrors('Item Not Found. Please Rescan Or Enter Item Number Again.');
+            foundItem.length > 0 ? this.onsetValues(foundItem, "item") : this.onErrors('Item Not Found. Please Rescan Or Enter Item Number Again.');
         },
         onsetValues: async function(data, type) {
             const populatePO = (po) => {
@@ -241,6 +232,7 @@ var fsm = new StateMachine({
         },
         onErrors: async function(error) {
             $('#scanErrorElement').removeClass("hidden");
+            // this.onStartQRScanner();
             self.scanErrors(error);
             setTimeout(() => $('#scanErrorElement').addClass('hidden'), 3500);
         }

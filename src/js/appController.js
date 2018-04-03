@@ -25,7 +25,8 @@ define(['ojs/ojcore', 'knockout', 'ojs/ojrouter', 'ojs/ojknockout', 'ojs/ojarray
                 'menu': { label: 'Menu' },
                 'purchase': { label: 'Purchase' },
                 'itemadd': { label: 'Create Item' },
-                'about': { label: 'About' }
+                'about': { label: 'About' },
+                'dashboard': { label: 'dashboard' }
             });
             //  oj.Router.defaults['baseUrl'] = '/myApp/main.html';
 

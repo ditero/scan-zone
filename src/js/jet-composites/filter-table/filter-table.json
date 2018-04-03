@@ -1,0 +1,22 @@
+{
+    "name": "filter-table",
+    "description": "Filterable table component",
+    "version": "1.0.0",
+    "properties":  {
+				"tableid": {
+						"type": "string"
+				},
+        "data": {
+            "type": "object"
+        },
+        "filter": {
+            "type": "string"
+        },
+        "onrowclick": {
+            "type": "function"
+        },
+        "visiblecolumns": {
+            "type": "array"
+        }
+    }
+}

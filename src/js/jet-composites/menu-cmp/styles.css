@@ -5,3 +5,17 @@ menu-cmp:not(.oj-complete){
 menu-cmp{
 
 }
+
+.btn-block {
+  width: 100%;
+  background-color: #dddddd;
+  border-color:  #dddddd;
+  color: black;
+}
+
+.btn-block:hover {
+  width: 100%;
+  background-color: #dddddd;
+  border-color:  #dddddd;
+  color: black;
+}

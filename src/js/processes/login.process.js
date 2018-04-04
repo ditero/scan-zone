@@ -44,12 +44,16 @@ var fsm = new StateMachine({
                     }
                   }).done(function(results, textStatus, xhr, auth) {
                    console.log(results);
-                 oj.Router.rootInstance.go('dashboard');
                    
-                   if (results.token) {
+                   if (results.token && results.role === "Manager") {
                     //set token in local storage
+                     oj.Router.rootInstance.go('dashboard');
                     localStorage.setItem('token', results.token);
-                    //set username in local storage
+                    localStorage.setItem('username', results.username);
+
+                }else if(results.token && results.role === "Picker"){
+                    oj.Router.rootInstance.go('menu');                    
+                    localStorage.setItem('token', results.token);
                     localStorage.setItem('username', results.username);
                 }
                   });
@@ -57,8 +61,7 @@ var fsm = new StateMachine({
             }else if (credentials.ais === "http://demo.steltix.com" || "http://sandbox921.steltix.com") {
                 console.log(cUser);         
                 console.log(credentials.ais)
-            
-            //      await $.ajax({
+            //       await $.ajax({
             //     type: 'post',
             //     data: JSON.stringify(cUser),
             //     contentType: "application/json",
@@ -73,10 +76,12 @@ var fsm = new StateMachine({
             //         localStorage.setItem('token', JSON.stringify(results.userInfo.token));
             //         //set username in local storage
             //         localStorage.setItem('username', JSON.stringify(results.username));
-            //     }
             //     oj.Router.rootInstance.go('menu');
+                        
+            //     }
                 
             // });
+            //    
             oj.Router.rootInstance.go('menu');
             
                 
@@ -89,4 +94,4 @@ var fsm = new StateMachine({
                  oj.Router.rootInstance.go('dashboard');
          }
     }
-});
+}); 

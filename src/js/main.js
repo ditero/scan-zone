@@ -43,7 +43,11 @@ requirejs.config({
         'addItemOrchestrator': 'orchestrations/CAM_NewItemAdd_4101',
         'bootstrap-js': 'libs/bootstrap-4.0.0-dist/js/bootstrap.min',
         'binaryTransport': 'libs/binaryTransport/binaryTransport',
-        'Quagga': 'libs/quagga/quagga'
+        'Quagga': 'libs/quagga/quagga',
+        'getToken': 'data_call/getToken',
+        'getLogs': 'data_call/getLogs',
+        'stockdb': 'libs/tyres_db/dataservices',
+        'chats': 'libs/graphs/graph'
     }
     //endinjector
     ,

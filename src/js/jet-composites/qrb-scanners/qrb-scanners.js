@@ -54,7 +54,7 @@ define(
                 { id: 'qr', label: 'QR' },
                 { id: 'barcode', label: 'Barcode' },
             ];
-            this.opts = ko.observable("qr");
+            self.opts = ko.observable("qr");
             self.qrVal = ko.observable("");
             self.qr_state = ko.observable("");
             self.scanErrors = ko.observable("")
@@ -96,11 +96,50 @@ define(
                 self.currentPage(0);
             }
 
+            self.scanNextPO = () => {
+                console.log('next po')
+                $('#output-form').addClass('hidden');
+                $('#poForm').addClass('hidden');
+                $("#formTable").addClass('hidden');
+                $('.br').addClass('hidden');
+                $('.qr').removeClass('hidden');
+                $('#scan-controls').removeClass('hidden');
+                self.rescanPo();
+                // self.opts("qr");
+                // self.qrVal("");
+                // self.qr_state("");
+                // self.scanErrors("")
+
+                // // Item Values
+                // self.itemNo("");
+                // self.itemCost("");
+                // self.itemQty("");
+                // self.itemDesc("");
+                // self.confirm(true);
+                // self.pending(false);
+
+                // // PO Form Values
+                // self.poNumber();
+                // self.poSupplier();
+                // self.poOrderDate();
+                // self.poTotalAmount();
+
+                // self.tableData();
+
+                // self.tableDate = [];
+                // self.tableState = true;
+
+                // self.currentPage(0);
+
+                // storedqrVal = self.qrVal();
+            fsm.onStartQRScanner();
+                
+            };
             self.UpdateItem = function() {
                 fsm.onUpdateItem()
             }
 
-            // fsm.onStartQRScanner();
+            fsm.onStartQRScanner();
         };
 
         ScannerModel.prototype.bindingsApplied = function(context) {

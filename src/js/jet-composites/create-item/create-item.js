@@ -43,7 +43,7 @@ define(
         CreateItemModel.prototype.attached = function(context) {
             let elem = document.querySelector('#addItemScanner');
             // pick a scanner to start
-            // let content = ScannerStarting().onStartQRScanner(elem);
+            let content = ScannerStarting().onStartQRScanner(elem);
 
         };
 

@@ -54,4 +54,14 @@ login-cmp{
 
 .loginBtn {
   width: 100%;
+  background-color: #dddddd;
+  border-color:  #dddddd;
+  color: black;
+}
+
+.loginBtn:hover {
+  width: 100%;
+  background-color: #dddddd;
+  border-color:  #dddddd;
+  color: black;
 }

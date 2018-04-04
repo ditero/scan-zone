@@ -3,7 +3,8 @@
   The Universal Permissive License (UPL), Version 1.0
 */
 define(
-    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojtable', 'ojs/ojarraytabledatasource'], function (oj, ko, $) {
+    ['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojtable', 'ojs/ojarraytabledatasource'],
+    function(oj, ko, $) {
         'use strict';
 
         function ExampleComponentModel(context) {
@@ -14,13 +15,12 @@ define(
 
             self.datasource = ko.observable(new oj.ArrayTableDataSource([]))
 
-            context.props.then(function (propertyMap) {
+            context.props.then(function(propertyMap) {
                 //Store a reference to the properties for any later use
                 self.properties = propertyMap;
 
                 //Parse your component properties here 
-              
-               
+
                 var listenData = setInterval(function() {
                     if (self.properties.formData !== undefined) {
                         self.properties.formData.forEach(item => {
@@ -35,7 +35,7 @@ define(
                         clearInterval(listenData);
                     }
                 }, 100);
-            
+
             });
         };
 

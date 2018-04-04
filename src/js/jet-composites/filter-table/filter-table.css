@@ -1,0 +1,86 @@
+.filter-table .oj-table {
+  display: block;
+  max-height: 550px;
+  overflow: scroll;
+}
+
+.oj-table-column-header {
+  height: 100%;
+}
+
+.filter-table td {
+  padding: 5px;
+}
+
+.filter-table-cell {
+  background-color: white;
+}
+
+.filter-table-header {
+  background-color: #f1f3f8;
+}
+
+.filter-table-error {
+  background-color: tomato;
+}
+
+.filter-table table,
+.filter-table input {
+  width: 50%
+}
+.filter-table input {
+  margin-top: 10px;
+}
+
+.filter-table tr {
+  cursor: pointer;
+  color: #333;
+}
+
+#customers .filter-table .oj-selected {
+  background: #00C0EF;
+  color: #FFFFFF;
+  opacity: 0.8;
+}
+
+#contacts .filter-table .oj-selected {
+  background: #9A53B0;
+  color: #FFFFFF;
+  opacity: 0.8;
+}
+
+#leads .filter-table .oj-selected {
+  background: #F39C12;
+  color: #FFFFFF;
+  opacity: 0.8;
+}
+#activities .filter-table .oj-selected {
+  background: #00A65A;
+  color: #FFFFFF;
+  opacity: 0.8;
+}
+
+
+#customers .filter-table .oj-table-body-row.oj-hover {
+  background: #00C0EF;
+  color: #FFFFFF;
+  opacity: 0.5;
+}
+
+#contacts .filter-table .oj-table-body-row.oj-hover {
+  background: #9A53B0;
+  color: #FFFFFF;
+  opacity: 0.5;
+}
+
+#activities .filter-table .oj-table-body-row.oj-hover {
+  background: #00A65A;
+  color: #FFFFFF;
+  opacity: 0.5;
+}
+
+#leads .filter-table .oj-table-body-row.oj-hover {
+  background: #F39C12;
+  color: #FFFFFF;
+  opacity: 0.5;
+}
